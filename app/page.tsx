@@ -421,10 +421,6 @@ export default function LandingPage() {
                   <Users className="w-5 h-5 text-blue-400" />
                   <span className="text-sm">400K+ Active Users</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-400">
-                  <Award className="w-5 h-5 text-yellow-400" />
-                  <span className="text-sm">Award Winning</span>
-                </div>
               </div>
             </div>
 
@@ -437,16 +433,10 @@ export default function LandingPage() {
               {/* Dashboard Preview Card */}
               <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl">
                 {/* Mini Chart Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <div className="text-gray-400 text-sm mb-1">Portfolio Value</div>
-                    <div className="text-3xl font-bold text-white">$24,567.89</div>
-                    <div className="text-green-400 text-sm font-semibold">+12.4% Today</div>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-gray-400 text-xs">Live</span>
-                  </div>
+                <div className="mb-6">
+                  <div className="text-gray-400 text-sm mb-1">Portfolio Value</div>
+                  <div className="text-3xl font-bold text-white">$24,567.89</div>
+                  <div className="text-green-400 text-sm font-semibold">+12.4% Today</div>
                 </div>
 
                 {/* Simplified Chart Visualization */}
