@@ -35,6 +35,13 @@ function InteractiveCalculator() {
 
   return (
     <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl p-10 rounded-3xl border border-white/10 overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}/>
+      </div>
+
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
 
       <div className="relative z-10">
@@ -59,18 +66,18 @@ function InteractiveCalculator() {
               </div>
               <input
                 type="range"
-                min="300"
+                min="500"
                 max="10000"
                 step="100"
                 value={investment}
                 onChange={(e) => setInvestment(Number(e.target.value))}
                 className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, rgb(99, 102, 241) 0%, rgb(168, 85, 247) ${((investment - 300) / (10000 - 300)) * 100}%, rgb(51, 65, 85) ${((investment - 300) / (10000 - 300)) * 100}%, rgb(51, 65, 85) 100%)`
+                  background: `linear-gradient(to right, rgb(99, 102, 241) 0%, rgb(168, 85, 247) ${((investment - 500) / (10000 - 500)) * 100}%, rgb(51, 65, 85) ${((investment - 500) / (10000 - 500)) * 100}%, rgb(51, 65, 85) 100%)`
                 }}
               />
               <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>$300</span>
+                <span>$500</span>
                 <span>$10,000</span>
               </div>
             </div>
@@ -356,52 +363,150 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 backdrop-blur-xl border border-indigo-500/30 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 animate-fade-in">
-              <Award className="w-4 h-4 text-yellow-400" />
-              99.6% Success Rate • Verified Performance
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Text Content */}
+            <div>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 backdrop-blur-xl border border-indigo-500/30 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 animate-fade-in">
+                <Award className="w-4 h-4 text-yellow-400" />
+                99.6% Success Rate • Verified Performance
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+                Your Gateway to
+                <br />
+                <span className="relative inline-block">
+                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-2xl opacity-50" />
+                  <span className="relative bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    AI-Powered Trading
+                  </span>
+                </span>
+              </h1>
+
+              <p className="text-xl sm:text-2xl text-gray-300 mb-12 leading-relaxed">
+                Join 400,000+ traders worldwide leveraging institutional-grade AI algorithms
+                for consistent daily returns with proven 99.6% accuracy
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Link
+                  href="/dashboard"
+                  className="group relative bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-10 py-5 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/50"
+                >
+                  <span className="relative z-10 flex items-center gap-2 justify-center">
+                    Get Started Free
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+
+                <button
+                  onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group border-2 border-white/30 hover:border-white/50 text-white px-10 py-5 rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-white/10 transition-all duration-300 flex items-center gap-2 justify-center"
+                >
+                  <Play className="w-5 h-5" />
+                  See How It Works
+                </button>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="flex flex-wrap gap-6 items-center">
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Shield className="w-5 h-5 text-green-400" />
+                  <span className="text-sm">Bank-Level Security</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Users className="w-5 h-5 text-blue-400" />
+                  <span className="text-sm">400K+ Active Users</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Award className="w-5 h-5 text-yellow-400" />
+                  <span className="text-sm">Award Winning</span>
+                </div>
+              </div>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Your Gateway to
-              <br />
-              <span className="relative inline-block">
-                <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-2xl opacity-50" />
-                <span className="relative bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  AI-Powered Trading
-                </span>
-              </span>
-            </h1>
+            {/* Right: Visual Dashboard Mockup */}
+            <div className="relative">
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-72 h-72 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
-            <p className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Join 400,000+ traders worldwide leveraging institutional-grade AI algorithms
-              for consistent daily returns with proven 99.6% accuracy
-            </p>
+              {/* Dashboard Preview Card */}
+              <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl">
+                {/* Mini Chart Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <div className="text-gray-400 text-sm mb-1">Portfolio Value</div>
+                    <div className="text-3xl font-bold text-white">$24,567.89</div>
+                    <div className="text-green-400 text-sm font-semibold">+12.4% Today</div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                    <span className="text-gray-400 text-xs">Live</span>
+                  </div>
+                </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
-              <Link
-                href="/dashboard"
-                className="group relative bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-10 py-5 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/50"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Get Started Free
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Link>
+                {/* Simplified Chart Visualization */}
+                <div className="relative h-48 mb-6">
+                  <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: 'rgb(99, 102, 241)', stopOpacity: 0.5 }} />
+                        <stop offset="100%" style={{ stopColor: 'rgb(99, 102, 241)', stopOpacity: 0 }} />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M 0 120 Q 50 100, 100 80 T 200 60 T 300 40 T 400 20"
+                      stroke="url(#chartGradient)"
+                      strokeWidth="2"
+                      fill="url(#chartGradient)"
+                    />
+                    <path
+                      d="M 0 120 Q 50 100, 100 80 T 200 60 T 300 40 T 400 20"
+                      stroke="rgb(99, 102, 241)"
+                      strokeWidth="3"
+                      fill="none"
+                    />
+                  </svg>
 
-              <button
-                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group border-2 border-white/30 hover:border-white/50 text-white px-10 py-5 rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
-              >
-                <Play className="w-5 h-5" />
-                See How It Works
-              </button>
+                  {/* Data points */}
+                  {[20, 35, 50, 70, 85].map((x, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-3 h-3 bg-indigo-400 rounded-full border-2 border-white animate-pulse"
+                      style={{
+                        left: `${x}%`,
+                        top: `${30 + i * 5}%`,
+                        animationDelay: `${i * 200}ms`
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Quick Stats Grid */}
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-slate-700/30 p-4 rounded-xl">
+                    <div className="text-gray-400 text-xs mb-1">Win Rate</div>
+                    <div className="text-xl font-bold text-green-400">99.6%</div>
+                  </div>
+                  <div className="bg-slate-700/30 p-4 rounded-xl">
+                    <div className="text-gray-400 text-xs mb-1">Trades</div>
+                    <div className="text-xl font-bold text-white">248</div>
+                  </div>
+                  <div className="bg-slate-700/30 p-4 rounded-xl">
+                    <div className="text-gray-400 text-xs mb-1">ROI</div>
+                    <div className="text-xl font-bold text-indigo-400">+127%</div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
 
+          {/* Stats Row */}
+          <div className="mt-20">
             {/* Animated Stats */}
             <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
               {[
