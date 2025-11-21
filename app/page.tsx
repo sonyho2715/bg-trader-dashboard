@@ -2,7 +2,187 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, TrendingUp, Shield, Users, Clock, DollarSign, Target, CheckCircle2, Star, BarChart3, Zap, Lock, Award, Globe, ChevronDown, Play } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Clock, DollarSign, Target, CheckCircle2, Star, BarChart3, Zap, Lock, Award, Globe, ChevronDown, Play, Calculator } from 'lucide-react';
+
+function InteractiveCalculator() {
+  const [investment, setInvestment] = useState(1000);
+  const [days, setDays] = useState(30);
+  const [dailyRate] = useState(1.3);
+  const [compounding, setCompounding] = useState(true);
+
+  const calculateReturns = () => {
+    if (compounding) {
+      // Compound interest formula: A = P(1 + r)^t
+      const rate = dailyRate / 100;
+      const finalAmount = investment * Math.pow(1 + rate, days);
+      return {
+        final: finalAmount,
+        profit: finalAmount - investment,
+        roi: ((finalAmount - investment) / investment) * 100
+      };
+    } else {
+      // Simple interest: A = P(1 + rt)
+      const profit = investment * (dailyRate / 100) * days;
+      return {
+        final: investment + profit,
+        profit: profit,
+        roi: (profit / investment) * 100
+      };
+    }
+  };
+
+  const results = calculateReturns();
+
+  return (
+    <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl p-10 rounded-3xl border border-white/10 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
+
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl">
+            <Calculator className="w-6 h-6 text-white" />
+          </div>
+          <h3 className="text-2xl font-bold text-white">Earnings Calculator</h3>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Left: Controls */}
+          <div className="space-y-8">
+            {/* Investment Amount */}
+            <div>
+              <div className="flex justify-between mb-4">
+                <label className="text-gray-300 font-semibold">Initial Investment</label>
+                <span className="text-indigo-400 font-bold text-lg">
+                  ${investment.toLocaleString()}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="300"
+                max="10000"
+                step="100"
+                value={investment}
+                onChange={(e) => setInvestment(Number(e.target.value))}
+                className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                style={{
+                  background: `linear-gradient(to right, rgb(99, 102, 241) 0%, rgb(168, 85, 247) ${((investment - 300) / (10000 - 300)) * 100}%, rgb(51, 65, 85) ${((investment - 300) / (10000 - 300)) * 100}%, rgb(51, 65, 85) 100%)`
+                }}
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>$300</span>
+                <span>$10,000</span>
+              </div>
+            </div>
+
+            {/* Time Period */}
+            <div>
+              <div className="flex justify-between mb-4">
+                <label className="text-gray-300 font-semibold">Time Period</label>
+                <span className="text-purple-400 font-bold text-lg">
+                  {days} days
+                </span>
+              </div>
+              <input
+                type="range"
+                min="7"
+                max="365"
+                step="1"
+                value={days}
+                onChange={(e) => setDays(Number(e.target.value))}
+                className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                style={{
+                  background: `linear-gradient(to right, rgb(168, 85, 247) 0%, rgb(236, 72, 153) ${((days - 7) / (365 - 7)) * 100}%, rgb(51, 65, 85) ${((days - 7) / (365 - 7)) * 100}%, rgb(51, 65, 85) 100%)`
+                }}
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>1 week</span>
+                <span>1 year</span>
+              </div>
+            </div>
+
+            {/* Daily Rate Display */}
+            <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 backdrop-blur-sm p-4 rounded-2xl border border-indigo-500/30">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300 font-semibold">Daily Return Rate</span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                  {dailyRate}%
+                </span>
+              </div>
+              <p className="text-gray-400 text-sm mt-2">Based on 99.6% success rate</p>
+            </div>
+
+            {/* Compounding Toggle */}
+            <div className="flex items-center justify-between bg-slate-700/30 p-4 rounded-2xl">
+              <div>
+                <div className="text-white font-semibold">Compound Returns</div>
+                <div className="text-gray-400 text-sm">Reinvest profits daily</div>
+              </div>
+              <button
+                onClick={() => setCompounding(!compounding)}
+                className={`relative w-14 h-8 rounded-full transition-all duration-300 ${
+                  compounding ? 'bg-gradient-to-r from-indigo-500 to-purple-500' : 'bg-slate-600'
+                }`}
+              >
+                <div
+                  className={`absolute w-6 h-6 bg-white rounded-full top-1 transition-all duration-300 ${
+                    compounding ? 'left-7' : 'left-1'
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Right: Results */}
+          <div className="flex flex-col justify-center">
+            <div className="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 backdrop-blur-sm p-8 rounded-3xl border border-indigo-500/30">
+              <div className="text-center mb-6">
+                <div className="text-gray-400 text-sm mb-2">Projected Balance After {days} Days</div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-4">
+                  ${results.final.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-4 bg-slate-700/30 rounded-2xl">
+                  <span className="text-gray-300">Total Profit</span>
+                  <span className="text-2xl font-bold text-green-400">
+                    +${results.profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center p-4 bg-slate-700/30 rounded-2xl">
+                  <span className="text-gray-300">ROI</span>
+                  <span className="text-2xl font-bold text-indigo-400">
+                    {results.roi.toFixed(2)}%
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center p-4 bg-slate-700/30 rounded-2xl">
+                  <span className="text-gray-300">Strategy</span>
+                  <span className="text-sm font-semibold text-purple-400">
+                    {compounding ? 'Compounding' : 'Simple Returns'}
+                  </span>
+                </div>
+              </div>
+
+              <Link
+                href="/dashboard"
+                className="mt-8 w-full block text-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105"
+              >
+                Start Trading Now
+              </Link>
+            </div>
+
+            <p className="text-gray-500 text-xs text-center mt-4">
+              * Projections based on historical {dailyRate}% daily returns. Past performance does not guarantee future results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -128,33 +308,6 @@ export default function LandingPage() {
       text: 'Building my network has been incredible. The community aspect adds another dimension of value beyond just the trading signals.',
       avatar: 'CW',
       profit: '+156%'
-    }
-  ];
-
-  const pricingTiers = [
-    {
-      name: 'Starter',
-      amount: '$300',
-      signals: '2 daily signals',
-      returns: 'Up to 1.3% daily',
-      bonus: '6 bonus signals',
-      popular: false
-    },
-    {
-      name: 'Growth',
-      amount: '$1,000',
-      signals: '2 daily signals + bonuses',
-      returns: 'Up to 3.8% daily',
-      bonus: '20 bonus signals',
-      popular: true
-    },
-    {
-      name: 'Premium',
-      amount: '$5,000+',
-      signals: 'Unlimited signals',
-      returns: 'Up to 5.2% daily',
-      bonus: 'VIP support included',
-      popular: false
     }
   ];
 
@@ -400,70 +553,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Tiers */}
+      {/* Interactive Earnings Calculator */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Choose Your Plan
+              Calculate Your Potential
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Flexible options designed to match your investment goals and trading style
+              See how your investment could grow with our AI-powered trading platform
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingTiers.map((tier, index) => (
-              <div
-                key={index}
-                className={`relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl p-8 rounded-3xl border transition-all duration-500 hover:scale-105 ${
-                  tier.popular
-                    ? 'border-indigo-500 ring-2 ring-indigo-500/50 shadow-2xl shadow-indigo-500/20'
-                    : 'border-white/10 hover:border-white/30'
-                }`}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">{tier.name}</h3>
-                  <div className="text-5xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                    {tier.amount}
-                  </div>
-                  <p className="text-gray-400">Minimum deposit</p>
-                </div>
-
-                <div className="space-y-4 mb-8">
-                  {[
-                    { icon: <Zap className="w-5 h-5" />, text: tier.signals },
-                    { icon: <TrendingUp className="w-5 h-5" />, text: tier.returns },
-                    { icon: <Award className="w-5 h-5" />, text: tier.bonus }
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 text-gray-300">
-                      <div className="text-indigo-400">{item.icon}</div>
-                      <span>{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="/dashboard"
-                  className={`block w-full py-4 rounded-full font-semibold text-center transition-all duration-300 ${
-                    tier.popular
-                      ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-xl hover:shadow-indigo-500/50 hover:scale-105'
-                      : 'border-2 border-white/20 text-white hover:bg-white/10'
-                  }`}
-                >
-                  Get Started
-                </Link>
-              </div>
-            ))}
-          </div>
+          <InteractiveCalculator />
         </div>
       </section>
 
